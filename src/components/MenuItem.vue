@@ -1,6 +1,6 @@
 <template>
-  <q-item clickable v-ripple>
-    <router-link :to="menu.url" class="text-black flex">
+  <router-link :to="menu.url" class="text-black flex">
+    <q-item clickable v-ripple class="full-width">
       <q-item-section>
         <q-item-label class="flex items-center">
           <q-item-section avatar>
@@ -9,8 +9,8 @@
           {{ menu.name }}
         </q-item-label>
       </q-item-section>
-    </router-link>
-  </q-item>
+    </q-item>
+  </router-link>
 </template>
 
 <script>

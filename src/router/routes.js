@@ -1,10 +1,10 @@
-const routes = [
+let routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
-      { path: "login", component: () => import("pages/LoginPage.vue") },
+      { path: "login", component: () => import("pages/Auth/LoginPage.vue") },
     ],
   },
   {
@@ -13,6 +13,7 @@ const routes = [
     children: [
       {
         path: "new",
+        name: "newRequest",
         component: () => import("pages/Student/NewRequest_STU.vue"),
       },
       { path: "all", component: () => import("pages/AO/AllRequests_AO.vue") },

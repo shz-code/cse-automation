@@ -25,9 +25,14 @@
             </router-link>
           </q-toolbar-title>
           <div class="auth-btns">
-            <router-link to="/login">
-              <q-btn color="secondary" label="Log In"></q-btn>
-            </router-link>
+            <div v-if="!user.id">
+              <router-link to="/login">
+                <q-btn color="secondary" label="Log In"></q-btn>
+              </router-link>
+            </div>
+            <div v-else>
+              <q-btn color="secondary" label="Logout" @click="logout"></q-btn>
+            </div>
           </div>
         </div>
       </q-toolbar>
@@ -63,17 +68,31 @@
 <script>
 import { defineComponent, ref } from "vue";
 import SideBar from "src/components/SideBar.vue";
+import authStore from "src/stores/auth-store";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
   name: "MainLayout",
   setup() {
     const leftDrawerOpen = ref(false);
+    const auth = authStore();
+    const { user } = storeToRefs(auth);
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      user,
+      auth,
     };
+  },
+  methods: {
+    logout() {
+      this.auth.logout();
+      localStorage.clear();
+      this.$router.push("/login");
+    },
   },
   components: {
     SideBar,

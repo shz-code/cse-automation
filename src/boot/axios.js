@@ -8,7 +8,7 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://64b2e33138e74e386d55b72.mockapi.io/api/",
+  baseURL: "https://jsonplaceholder.typicode.com",
   headers: {
     "Content-Type": "application/json",
   },
@@ -19,6 +19,19 @@ api.interceptors.response.use(
     console.log(response);
     // return Promise.reject("emni");
     return response;
+  },
+  async (error) => {
+    console.log(error);
+    //const res = await axios("http://127.0.0.1:8000/api/");
+    //return res;
+  }
+);
+
+api.interceptors.request.use(
+  (req) => {
+    console.log(req);
+    // return Promise.reject("emni");
+    return req;
   },
   async (error) => {
     console.log(error);

@@ -13,21 +13,24 @@
     </q-item>
     <!-- Dynamic menu loop start-->
     <!-- Check if menu is loaded -->
-    <div v-if="isLoading" class="q-ml-md q-py-md">
+
+    <!-- <div v-if="isLoading" class="q-ml-md q-py-md">
       <q-spinner color="primary" size="2rem" :thickness="5" />
-    </div>
+    </div> -->
+
     <!-- Iterate over the menu -->
-    <q-list
-      class="menu"
-      v-else
-      v-for="i in list"
-      :key="i.name"
-      separator
-      bordered
-    >
+    <!-- v-else -->
+    <q-list class="menu" v-for="i in list" :key="i.name" separator>
       <!-- Check if menu is nested or not -->
       <div v-if="i.nested" class="dropdown-container">
-        <q-btn-dropdown :label="i.name" flat class="dropdown q-py-sm">
+        <q-btn-dropdown
+          :label="i.name"
+          flat
+          align="left"
+          :icon="i.icon"
+          color="primary"
+          class="dropdown q-py-sm"
+        >
           <q-list v-for="x in i.pages" :key="x.name">
             <MenuItem :menu="x" />
           </q-list>
@@ -46,17 +49,6 @@
         </q-item-label>
       </q-item-section>
     </q-item>
-    <!-- Log out btn -->
-    <q-item clickable v-ripple>
-      <q-item-section>
-        <q-item-label class="flex items-center">
-          <q-item-section avatar>
-            <q-icon color="primary" name="logout" />
-          </q-item-section>
-          Logout
-        </q-item-label>
-      </q-item-section>
-    </q-item>
   </q-list>
   <!-- Dynamic menu loop end-->
 </template>
@@ -67,22 +59,22 @@ import MenuItem from "./MenuItem.vue";
 import authStore from "src/stores/auth-store";
 import { storeToRefs } from "pinia";
 
-const authStoreInstance = authStore();
-const { getMenu } = storeToRefs(authStoreInstance);
-
 export default defineComponent({
   name: "SideBar",
-  data() {
+  setup() {
+    const authStoreInstance = authStore();
+    // let isLoading = true;
+    const { getMenu } = storeToRefs(authStoreInstance);
     return {
-      list: [],
-      isLoading: false,
+      list: getMenu,
+      // isLoading,
     };
   },
   async mounted() {
-    this.isLoading = true;
-    await authStoreInstance.setMenu();
-    this.list = getMenu;
-    this.isLoading = false;
+    // this.isLoading = false;
+    // await authStoreInstance.setMenu();
+    // this.list = getMenu;
+    // this.isLoading = false;
   },
   components: { MenuItem },
 });

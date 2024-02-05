@@ -138,7 +138,6 @@ export default defineComponent({
       this.pageCount = this.rows.length;
     },
     paginate() {
-      console.log(3 * (this.currentPage - 1), this.currentPage * this.maxCount);
       this.rows = this.data.data.slice(
         this.maxCount * (this.currentPage - 1),
         this.currentPage * this.maxCount
