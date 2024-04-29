@@ -3,7 +3,7 @@ import { api } from "src/boot/axios";
 
 export const authStore = defineStore("auth", {
   state: () => ({
-    userInfo: { username: "Shanto", id: null },
+    userInfo: { role: null, id: null, name: null, email: null },
     menu: [],
     rows: [],
   }),
@@ -13,10 +13,40 @@ export const authStore = defineStore("auth", {
     getRows: (state) => state.rows,
   },
   actions: {
+    async initiate() {
+      const localUser = JSON.parse(localStorage.getItem("userInfo"));
+      if (localUser) {
+        this.userInfo = {
+          role: localUser.role,
+          id: localUser.id,
+          name: localUser.name,
+          email: localUser.email,
+          studentInfoId: localUser.studentInfoId,
+          studentId: localUser.studentId,
+        };
+        await this.setMenu();
+      } else
+        this.menu = [
+          { name: "Login", url: "/login", icon: "login", nested: false },
+        ];
+    },
     async login(userId, password) {
       try {
-        const res = await api("/todos");
-        this.userInfo = { username: "Shanto", id: "21203010" };
+        const res = await api.post(`/Auth/Login/${userId}/${password}`);
+
+        const userInformation = await api.get(
+          `/Students/GetStudentByUserId/${res.data.studentInfoId}`
+        );
+
+        this.userInfo = {
+          id: res.data.id,
+          studentInfoId: res.data.studentInfoId,
+          studentId: userInformation.data.studentId,
+          role: res.data.role,
+          name: userInformation.data.name,
+          email: userInformation.data.email,
+        };
+
         localStorage.setItem("userInfo", JSON.stringify(this.userInfo));
         await this.setMenu();
       } catch (err) {
@@ -24,7 +54,14 @@ export const authStore = defineStore("auth", {
       }
     },
     logout() {
-      this.userInfo = { username: "", id: "" };
+      this.userInfo = {
+        role: null,
+        id: null,
+        name: null,
+        email: null,
+        studentInfoId: null,
+        studentId: null,
+      };
       this.menu = [
         { name: "Login", url: "/login", icon: "login", nested: false },
       ];
@@ -41,7 +78,6 @@ export const authStore = defineStore("auth", {
             { name: "All Requests", url: "/requests/all", icon: "done_all" },
           ],
         },
-        { name: "Login", url: "/login", icon: "login", nested: false },
       ];
     },
     async setRows() {

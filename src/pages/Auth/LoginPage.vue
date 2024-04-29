@@ -55,7 +55,7 @@ export default defineComponent({
   methods: {
     async login() {
       this.isLoading = true;
-      await authStoreInstance.login();
+      await authStoreInstance.login(this.userId, this.password);
       this.isLoading = false;
       this.$router.push("/");
     },

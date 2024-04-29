@@ -57,7 +57,7 @@
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
           </q-avatar>
-          <div>Title</div>
+          <div>CSE Automation</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
@@ -77,6 +77,8 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const auth = authStore();
     const { user } = storeToRefs(auth);
+
+    auth.initiate();
 
     return {
       leftDrawerOpen,

@@ -9,7 +9,6 @@ import routes from "./routes";
 
 const checkAuth = () => {
   if (localStorage.getItem("userInfo")) {
-    JSON.parse(localStorage.getItem("userInfo"));
     return true;
   } else false;
 };

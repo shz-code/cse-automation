@@ -19,7 +19,13 @@ let routes = [
       { path: "all", component: () => import("pages/AO/AllRequests_AO.vue") },
     ],
   },
-
+  {
+    path: "/students",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "adddrop", component: () => import("pages/Student/AddDrop.vue") },
+    ],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

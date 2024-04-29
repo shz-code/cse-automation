@@ -8,28 +8,21 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: "https://localhost:44334/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-api.interceptors.response.use(
-  (response) => {
-    console.log(response);
-    // return Promise.reject("emni");
-    return response;
-  },
-  async (error) => {
-    console.log(error);
-    //const res = await axios("http://127.0.0.1:8000/api/");
-    //return res;
-  }
-);
+api.interceptors.response.use((response) => {
+  // console.log(response);
+  // return Promise.reject("emni");
+  return response;
+});
 
 api.interceptors.request.use(
   (req) => {
-    console.log(req);
+    // console.log(req);
     // return Promise.reject("emni");
     return req;
   },
